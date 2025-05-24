@@ -37,6 +37,7 @@ model User {
   utmSource      String?
   
   integrations   Integration[]
+  cloudIntegration   CloudIntegration[] 
 }
 
 
@@ -51,4 +52,54 @@ model Integration {
   connectedAt    DateTime @default(now())
 
   @@unique([userId, provider], name: "userId_provider")
+}
+
+
+enum CloudProvider {
+  AWS
+  GCP
+  AZURE
+}
+
+model CloudIntegration {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+
+  provider  CloudProvider
+
+  aws       AWSIntegration? @relation(fields: [awsId], references: [id], onDelete: Cascade)
+  awsId     String?          @unique
+
+  gcp       GCPIntegration? @relation(fields: [gcpId], references: [id], onDelete: Cascade)
+  gcpId     String?          @unique
+
+  azure     AzureIntegration? @relation(fields: [azureId], references: [id], onDelete: Cascade)
+  azureId   String?            @unique
+
+  createdAt DateTime @default(now())
+}
+
+model AWSIntegration {
+  id             String   @id @default(uuid())
+  accessKeyId    String
+  secretAccessKey String  @db.Text
+  region         String
+  cloudIntegration CloudIntegration?
+}
+
+model GCPIntegration {
+  id             String   @id @default(uuid())
+  serviceAccountJson String @db.Text
+  projectId       String
+  cloudIntegration CloudIntegration?
+}
+
+model AzureIntegration {
+  id             String   @id @default(uuid())
+  tenantId       String
+  clientId       String
+  clientSecret   String @db.Text
+  subscriptionId String
+  cloudIntegration CloudIntegration?
 }

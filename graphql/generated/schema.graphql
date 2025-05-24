@@ -2,6 +2,28 @@
 ### Do not make changes to this file directly
 
 
+input AWSIntegrationInput {
+  accessKeyId: String
+  region: String
+  secretAccessKey: String
+}
+
+type CloudIntegration {
+  awsId: String
+  azureId: String
+  createdAt: DateTime!
+  gcpId: String
+  id: ID!
+  provider: CloudProvider!
+  userId: String!
+}
+
+enum CloudProvider {
+  AWS
+  AZURE
+  GCP
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -29,10 +51,12 @@ type Integration {
 }
 
 type Mutation {
+  createCloudIntegration(aws: AWSIntegrationInput, provider: CloudProvider!): CloudIntegration
   createUser(email: String!, name: String!, password: String!): User
 }
 
 type Query {
+  getCloudIntegrations: [CloudIntegration]
   getRepositories: RepositoryResponse
   getUser: User
 }

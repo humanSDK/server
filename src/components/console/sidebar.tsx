@@ -13,6 +13,7 @@ import {
   Moon,
   Sun,
   Github,
+  Cloud,
 } from "lucide-react"
 import {
   DropdownMenu,
@@ -47,6 +48,11 @@ export function Sidebar({ className }: SidebarProps) {
       title: "Repositories",
       href: "/console/repos",
       icon: Github,
+    },
+    {
+      title: "Cloud",
+      href: "/console/manage-cloud",
+      icon: Cloud,  
     },
     {
       title: "Settings",

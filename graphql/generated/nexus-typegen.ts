@@ -29,6 +29,11 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  AWSIntegrationInput: { // input type
+    accessKeyId?: string | null; // String
+    region?: string | null; // String
+    secretAccessKey?: string | null; // String
+  }
   SortInput: { // input type
     field_name?: string | null; // String
     order?: NexusGenEnums['SortOrder'] | null; // SortOrder
@@ -36,6 +41,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  CloudProvider: "AWS" | "AZURE" | "GCP"
   Role: "Admin" | "User"
   SortOrder: "ASC" | "DESC"
 }
@@ -50,6 +56,15 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  CloudIntegration: { // root type
+    awsId?: string | null; // String
+    azureId?: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    gcpId?: string | null; // String
+    id: string; // ID!
+    provider: NexusGenEnums['CloudProvider']; // CloudProvider!
+    userId: string; // String!
+  }
   GitHubRepository: { // root type
     description?: string | null; // String
     forks: number; // Int!
@@ -101,6 +116,15 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  CloudIntegration: { // field return type
+    awsId: string | null; // String
+    azureId: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    gcpId: string | null; // String
+    id: string; // ID!
+    provider: NexusGenEnums['CloudProvider']; // CloudProvider!
+    userId: string; // String!
+  }
   GitHubRepository: { // field return type
     description: string | null; // String
     forks: number; // Int!
@@ -121,9 +145,11 @@ export interface NexusGenFieldTypes {
     userId: string; // String!
   }
   Mutation: { // field return type
+    createCloudIntegration: NexusGenRootTypes['CloudIntegration'] | null; // CloudIntegration
     createUser: NexusGenRootTypes['User'] | null; // User
   }
   Query: { // field return type
+    getCloudIntegrations: Array<NexusGenRootTypes['CloudIntegration'] | null> | null; // [CloudIntegration]
     getRepositories: NexusGenRootTypes['RepositoryResponse'] | null; // RepositoryResponse
     getUser: NexusGenRootTypes['User'] | null; // User
   }
@@ -147,6 +173,15 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  CloudIntegration: { // field return type name
+    awsId: 'String'
+    azureId: 'String'
+    createdAt: 'DateTime'
+    gcpId: 'String'
+    id: 'ID'
+    provider: 'CloudProvider'
+    userId: 'String'
+  }
   GitHubRepository: { // field return type name
     description: 'String'
     forks: 'Int'
@@ -167,9 +202,11 @@ export interface NexusGenFieldTypeNames {
     userId: 'String'
   }
   Mutation: { // field return type name
+    createCloudIntegration: 'CloudIntegration'
     createUser: 'User'
   }
   Query: { // field return type name
+    getCloudIntegrations: 'CloudIntegration'
     getRepositories: 'RepositoryResponse'
     getUser: 'User'
   }
@@ -194,6 +231,10 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createCloudIntegration: { // args
+      aws?: NexusGenInputs['AWSIntegrationInput'] | null; // AWSIntegrationInput
+      provider: NexusGenEnums['CloudProvider']; // CloudProvider!
+    }
     createUser: { // args
       email: string; // String!
       name: string; // String!

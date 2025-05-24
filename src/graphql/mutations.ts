@@ -9,3 +9,12 @@ export const CREATE_USER_MUTATION = gql`
     }
   }
 `
+
+export const CREATE_CLOUD_INTEGRATION = gql`
+mutation CreateCloudIntegration($provider: CloudProvider!, $aws: AWSIntegrationInput) {
+  createCloudIntegration(provider: $provider, aws: $aws) {
+    id
+    provider
+  }
+}
+`

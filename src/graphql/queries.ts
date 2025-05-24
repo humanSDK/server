@@ -19,3 +19,17 @@ export const GET_REPOSITORIES = gql`
     }
   }
 `;
+
+
+export const GET_CLOUD_INTEGRATIONS = gql`
+query GetCloudIntegrations {
+  getCloudIntegrations {
+    id
+    provider
+    awsId
+    gcpId
+    azureId
+  }
+}
+`
+
