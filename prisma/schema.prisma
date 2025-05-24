@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator nexusPrisma {
+  provider = "nexus-prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+enum Role {
+  Admin
+  User
+}
+
+model User {
+  id             String   @id @default(uuid())
+  email          String   @unique
+  name           String?
+  avatar         String?
+  hashedPassword String?
+  createdAt      DateTime @default(now())
+
+  role           Role     @default(User)
+
+  isVerified     Boolean  @default(false)
+  verifyToken    String?  @db.Text
+
+  isActive       Boolean  @default(false)
+  lastLoginAt    DateTime?
+  lastLogoutAt   DateTime?
+
+  utmSource      String?
+}
+
