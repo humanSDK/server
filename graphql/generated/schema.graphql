@@ -7,12 +7,40 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+type GitHubRepository {
+  description: String
+  forks: Int!
+  fullName: String!
+  id: Int!
+  name: String!
+  private: Boolean!
+  pushedAt: String!
+  stars: Int!
+  url: String!
+}
+
+type Integration {
+  accessToken: String!
+  connectedAt: DateTime!
+  id: ID!
+  provider: String!
+  providerUserId: String!
+  userId: String!
+}
+
 type Mutation {
   createUser(email: String!, name: String!, password: String!): User
 }
 
 type Query {
+  getRepositories: RepositoryResponse
   getUser: User
+}
+
+type RepositoryResponse {
+  message: String
+  repositories: [GitHubRepository]
+  status: String!
 }
 
 enum Role {

@@ -50,8 +50,32 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  GitHubRepository: { // root type
+    description?: string | null; // String
+    forks: number; // Int!
+    fullName: string; // String!
+    id: number; // Int!
+    name: string; // String!
+    private: boolean; // Boolean!
+    pushedAt: string; // String!
+    stars: number; // Int!
+    url: string; // String!
+  }
+  Integration: { // root type
+    accessToken: string; // String!
+    connectedAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    provider: string; // String!
+    providerUserId: string; // String!
+    userId: string; // String!
+  }
   Mutation: {};
   Query: {};
+  RepositoryResponse: { // root type
+    message?: string | null; // String
+    repositories?: Array<NexusGenRootTypes['GitHubRepository'] | null> | null; // [GitHubRepository]
+    status: string; // String!
+  }
   User: { // root type
     avatar?: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -77,11 +101,36 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  GitHubRepository: { // field return type
+    description: string | null; // String
+    forks: number; // Int!
+    fullName: string; // String!
+    id: number; // Int!
+    name: string; // String!
+    private: boolean; // Boolean!
+    pushedAt: string; // String!
+    stars: number; // Int!
+    url: string; // String!
+  }
+  Integration: { // field return type
+    accessToken: string; // String!
+    connectedAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    provider: string; // String!
+    providerUserId: string; // String!
+    userId: string; // String!
+  }
   Mutation: { // field return type
     createUser: NexusGenRootTypes['User'] | null; // User
   }
   Query: { // field return type
+    getRepositories: NexusGenRootTypes['RepositoryResponse'] | null; // RepositoryResponse
     getUser: NexusGenRootTypes['User'] | null; // User
+  }
+  RepositoryResponse: { // field return type
+    message: string | null; // String
+    repositories: Array<NexusGenRootTypes['GitHubRepository'] | null> | null; // [GitHubRepository]
+    status: string; // String!
   }
   User: { // field return type
     avatar: string | null; // String
@@ -98,11 +147,36 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  GitHubRepository: { // field return type name
+    description: 'String'
+    forks: 'Int'
+    fullName: 'String'
+    id: 'Int'
+    name: 'String'
+    private: 'Boolean'
+    pushedAt: 'String'
+    stars: 'Int'
+    url: 'String'
+  }
+  Integration: { // field return type name
+    accessToken: 'String'
+    connectedAt: 'DateTime'
+    id: 'ID'
+    provider: 'String'
+    providerUserId: 'String'
+    userId: 'String'
+  }
   Mutation: { // field return type name
     createUser: 'User'
   }
   Query: { // field return type name
+    getRepositories: 'RepositoryResponse'
     getUser: 'User'
+  }
+  RepositoryResponse: { // field return type name
+    message: 'String'
+    repositories: 'GitHubRepository'
+    status: 'String'
   }
   User: { // field return type name
     avatar: 'String'

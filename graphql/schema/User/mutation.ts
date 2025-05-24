@@ -1,7 +1,7 @@
 import { extendType, nonNull, stringArg } from "nexus";
 import * as bcrypt from "bcrypt";
 import crypto from "crypto";
-import { sendVerificationEmail } from "@/lib/mail";
+import { sendVerificationEmail } from "../../../src/lib/mail";
 
 export const UserMutations=extendType({
     type:'Mutation',
