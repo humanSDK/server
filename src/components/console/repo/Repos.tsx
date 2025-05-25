@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getTimeAgo } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 interface Repository {
   id: number;
@@ -37,6 +38,7 @@ export const Repos = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [visibilityFilter, setVisibilityFilter] = useState<VisibilityFilter>("all");
   const { data, loading, error } = useQuery(GET_REPOSITORIES);
+  const router = useRouter();
 
   if (error) {
     return (
@@ -75,6 +77,10 @@ export const Repos = () => {
     const response = await fetch("/api/integrations/github/authorize");
     const data = await response.json();
     window.location.href = data.url;
+  }
+
+  const handleRepoClick = (repoId: string) => {
+    router.push(`/console/repos/preview/${repoId}`);
   }
 
   if (loading) {
@@ -173,7 +179,7 @@ export const Repos = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {filteredRepositories.slice(0, visibleRepos).map((repo: Repository) => (
-          <Card key={repo.id} className="flex flex-col hover:border-primary/30 hover:mx-1 transition-all duration-300 cursor-pointer">
+          <Card key={repo.id} onClick={() => handleRepoClick(repo.id.toString())} className="flex flex-col hover:border-primary/30 hover:mx-1 transition-all duration-300 cursor-pointer">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Github className="h-4 w-4" />

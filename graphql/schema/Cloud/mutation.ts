@@ -1,5 +1,5 @@
 import { arg, extendType, nonNull, stringArg } from "nexus";
-import { encryptData } from "@/lib/encryption";
+import { encryptData } from "../../../src/lib/encryption";
 
 export const CloudMutation = extendType({
     type: "Mutation",

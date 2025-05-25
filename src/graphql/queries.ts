@@ -33,3 +33,34 @@ query GetCloudIntegrations {
 }
 `
 
+
+export const GET_REPOSITORY_DETAILS_BY_ID = gql`
+query GetRepositoryDetailsById($repoId: Int!) {
+  getRepositoryDetailsById(repoId: $repoId) {
+    id
+    name
+    fullName
+    description
+    url
+    private
+    stars
+    forks
+    pushedAt
+    branches
+    commits {
+      sha
+      message
+      url
+      comment_count
+      committer {
+        name
+        date
+      }
+    }
+    contributors {
+      login
+      avatar_url
+    }
+  }
+}
+`

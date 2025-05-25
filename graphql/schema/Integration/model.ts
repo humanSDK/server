@@ -1,8 +1,7 @@
 import { objectType } from "nexus"
 import * as np from "nexus-prisma";
 
-
-  export interface Repository {
+export interface Repository {
   id: number;
   name: string;
   full_name: string;
@@ -27,6 +26,7 @@ export const Integration = objectType({
   },
 })
 
+
 export const GitHubRepository = objectType({
   name: "GitHubRepository",
   definition(t) {
@@ -39,6 +39,9 @@ export const GitHubRepository = objectType({
     t.nonNull.int("stars")
     t.nonNull.int("forks")
     t.nonNull.string("pushedAt")
+    t.list.string("branches")
+    t.list.field("commits", { type: "Commit" })
+    t.list.field("contributors", { type: "Contributor" })
   },
 })
 
@@ -48,5 +51,35 @@ export const RepositoryResponse = objectType({
     t.nonNull.string("status")
     t.list.field("repositories", { type: "GitHubRepository" })
     t.string("message")
+  },
+})
+
+
+export const CommitAuthor = objectType({
+  name: "CommitAuthor",
+  definition(t) {
+    t.string("name")
+    t.string("email")
+    t.string("date")
+  },
+})
+
+export const Contributor = objectType({
+  name: "Contributor",
+  definition(t) {
+    t.string("login")
+    t.string("avatar_url")
+  },
+})
+
+
+export const Commit = objectType({
+  name: "Commit",
+  definition(t) {
+    t.nonNull.string("sha")
+    t.nonNull.string("message")
+    t.field("committer", { type: "CommitAuthor" })
+    t.nonNull.string("url")
+    t.nonNull.int("comment_count")
   },
 })

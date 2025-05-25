@@ -65,7 +65,26 @@ export interface NexusGenObjects {
     provider: NexusGenEnums['CloudProvider']; // CloudProvider!
     userId: string; // String!
   }
+  Commit: { // root type
+    comment_count: number; // Int!
+    committer?: NexusGenRootTypes['CommitAuthor'] | null; // CommitAuthor
+    message: string; // String!
+    sha: string; // String!
+    url: string; // String!
+  }
+  CommitAuthor: { // root type
+    date?: string | null; // String
+    email?: string | null; // String
+    name?: string | null; // String
+  }
+  Contributor: { // root type
+    avatar_url?: string | null; // String
+    login?: string | null; // String
+  }
   GitHubRepository: { // root type
+    branches?: Array<string | null> | null; // [String]
+    commits?: Array<NexusGenRootTypes['Commit'] | null> | null; // [Commit]
+    contributors?: Array<NexusGenRootTypes['Contributor'] | null> | null; // [Contributor]
     description?: string | null; // String
     forks: number; // Int!
     fullName: string; // String!
@@ -125,7 +144,26 @@ export interface NexusGenFieldTypes {
     provider: NexusGenEnums['CloudProvider']; // CloudProvider!
     userId: string; // String!
   }
+  Commit: { // field return type
+    comment_count: number; // Int!
+    committer: NexusGenRootTypes['CommitAuthor'] | null; // CommitAuthor
+    message: string; // String!
+    sha: string; // String!
+    url: string; // String!
+  }
+  CommitAuthor: { // field return type
+    date: string | null; // String
+    email: string | null; // String
+    name: string | null; // String
+  }
+  Contributor: { // field return type
+    avatar_url: string | null; // String
+    login: string | null; // String
+  }
   GitHubRepository: { // field return type
+    branches: Array<string | null> | null; // [String]
+    commits: Array<NexusGenRootTypes['Commit'] | null> | null; // [Commit]
+    contributors: Array<NexusGenRootTypes['Contributor'] | null> | null; // [Contributor]
     description: string | null; // String
     forks: number; // Int!
     fullName: string; // String!
@@ -151,6 +189,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     getCloudIntegrations: Array<NexusGenRootTypes['CloudIntegration'] | null> | null; // [CloudIntegration]
     getRepositories: NexusGenRootTypes['RepositoryResponse'] | null; // RepositoryResponse
+    getRepositoryDetailsById: NexusGenRootTypes['GitHubRepository'] | null; // GitHubRepository
     getUser: NexusGenRootTypes['User'] | null; // User
   }
   RepositoryResponse: { // field return type
@@ -182,7 +221,26 @@ export interface NexusGenFieldTypeNames {
     provider: 'CloudProvider'
     userId: 'String'
   }
+  Commit: { // field return type name
+    comment_count: 'Int'
+    committer: 'CommitAuthor'
+    message: 'String'
+    sha: 'String'
+    url: 'String'
+  }
+  CommitAuthor: { // field return type name
+    date: 'String'
+    email: 'String'
+    name: 'String'
+  }
+  Contributor: { // field return type name
+    avatar_url: 'String'
+    login: 'String'
+  }
   GitHubRepository: { // field return type name
+    branches: 'String'
+    commits: 'Commit'
+    contributors: 'Contributor'
     description: 'String'
     forks: 'Int'
     fullName: 'String'
@@ -208,6 +266,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     getCloudIntegrations: 'CloudIntegration'
     getRepositories: 'RepositoryResponse'
+    getRepositoryDetailsById: 'GitHubRepository'
     getUser: 'User'
   }
   RepositoryResponse: { // field return type name
@@ -239,6 +298,11 @@ export interface NexusGenArgTypes {
       email: string; // String!
       name: string; // String!
       password: string; // String!
+    }
+  }
+  Query: {
+    getRepositoryDetailsById: { // args
+      repoId: number; // Int!
     }
   }
 }
